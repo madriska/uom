@@ -26,6 +26,10 @@ module Uom
                      to_units.basis_unit_factor, 
                    to_units)
     end
+
+    def inspect
+      "#{amount} #{units}"
+    end
     
     DELTA = 0.001
     def <=>(other)
