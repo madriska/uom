@@ -1,50 +1,52 @@
 Uom::Unit.define_units do
-  # Syntax:
-  #   unit unit, parent_unit, factor, offset, options
-  # 
-  # where:
-  #   factor * (parent_unit + offset) = unit
-  # 
-  # Examples:
-  #   unit :m                     # Defines a base unit from which others are 
-  #                               # derived
-  #   unit :cm, :m, 100           # 100 * m = cm
-  #   unit :degC, :K, 1, -273.15  # 1 * (K + (-273.15)) = C
   
-  # Length
-  unit :m
-  unit :cm, :m, 100
-  unit :mm, :m, 1000
-  unit :ft, :m, 3.2808399
-  unit :in, :ft, 12
-  unit :yd, :ft, Rational(1,3)
+  dimension :length do
+    unit :m
+    unit :cm => m / 100
+    unit :mm => m / 1000
+
+    unit :ft => m / 3.2808399
+    unit :in => ft / 12
+    unit :yd => 3 * ft
+  end
   
-  # Area
-  unit :acre, "m^2", 0.000247105381
+  dimension :area => dimension(:length)**2 do
+    unit :acre => 4046.85642 * unit("m^2")
+  end
   
-  # Volume
-  unit :L, "m^3", 1000
-  unit :mL, :L, 1000
+  dimension :volume => dimension(:length)**3 do
+    unit :L  => unit("m^3") / 1000
+    unit :mL => unit("L") / 1000
+
+    # US customary units
+    unit :tsp   => 4.92892159 * mL
+    unit :tbsp  => 3 * tsp
+    unit :fl_oz => 2 * tbsp
+    unit :cup   => 8 * fl_oz
+    unit :pint  => 2 * cup
+    unit :qt    => 2 * pint
+    unit :gal   => 4 * qt
+  end
   
-  # Volume (US customary units)
-  unit :gal, "m^3", 264.172052
-  unit :qt, :gal, 4
-  unit :pint, :gal, 8
-  unit :cup, :gal, 16
-  unit :fl_oz, :gal, 128
-  unit :tbsp, :gal, 256
-  unit :tsp, :gal, 768
+  dimension :mass do
+    unit :kg
+    unit :g   => kg / 1000
+
+    # US customary units
+    unit :lb  => kg / 2.20462262
+    unit :ton => 2000 * lb
+    unit :oz  => lb / 16
+  end
   
-  # Mass
-  unit :kg
-  unit :g, :kg, 1000
-  unit :lb, :kg, 2.20462262
-  unit :ton, :lb, 2000
-  unit :oz, :lb, 16
-  
-  # Temperature
-  unit :K
-  unit :degC, :K, 1, -273.15
-  unit :degF, :K, Rational(9,5), -459.67
+  dimension :temperature do
+    # Rational is used below for exact values.
+    # Float signifies inexact values.
+    
+    unit :K
+    # Rankine is mainly included for completeness and to simplify degF definition
+    unit :degR => Rational(9,5) * unit("K")
+    unit :degC => unit("K") + Rational(27315,100)
+    unit :degF => degR - Rational(45967,100)
+  end
   
 end
