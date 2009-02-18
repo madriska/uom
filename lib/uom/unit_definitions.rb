@@ -18,6 +18,7 @@ Uom::Unit.define_units do
   unit :ft, :m, 3.2808399
   unit :in, :ft, 12
   unit :yd, :ft, Rational(1,3)
+  unit :mi, :ft, Rational(1,5280)
   
   # Area
   unit :acre, "m^2", 0.000247105381
