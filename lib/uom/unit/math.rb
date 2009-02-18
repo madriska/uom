@@ -1,13 +1,17 @@
-# Math functions and conversions for Unit.
+# Math functions and conversions for Unit and Quantity.
 module Uom
-  class Unit
+  module UnitMath
     
     def /(scalar)
-      Unit.new(dimension, nil, [:/, self, scalar])
+      Quantity.new(1, [:/, self, scalar])
     end
     
     def *(scalar)
-      Unit.new(dimension, nil, [:*, self, scalar])
+      Quantity.new(1, [:*, self, scalar])
+    end
+
+    def **(scalar)
+      Quantity.new(1, [:**, self, scalar])
     end
 
     def +(val)
@@ -24,3 +28,4 @@ module Uom
 
   end
 end
+
