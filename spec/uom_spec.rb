@@ -17,55 +17,6 @@ describe "simple units" do
   end
 end
 
-describe "compound units" do
-  it "should accept dimensionless units" do
-    Uom::CompoundUnit[""].parts.should == {}
-    Uom::CompoundUnit[""].should be_dimensionless
-  end
-  
-  it "should accept straight units via symbols or strings" do
-    Uom::CompoundUnit[:m].should_not be_dimensionless
-    Uom::CompoundUnit[:m].should == Uom::CompoundUnit["m^1"]
-    Uom::CompoundUnit["m"].should == Uom::CompoundUnit["m^1"]
-  end
-  
-  it "should accept a Unit object" do
-    Uom::CompoundUnit[Uom::Unit[:m]].should == Uom::CompoundUnit[:m]
-  end
-  
-  it "should generate a canonical order for compound units" do
-    Uom::CompoundUnit['m lb^-1'].to_s.should == "lb^-1 m"
-  end
-  
-  it "should compare canonically equivalent units as equal" do
-    Uom::CompoundUnit['m lb^-1'].should == Uom::CompoundUnit['lb^-1 m']
-  end
-  
-  it "should compare units with different units as unequal" do
-    Uom::CompoundUnit['lb^-1 m'].should_not == Uom::CompoundUnit['m']
-  end
-  
-  it "should compare units with different exponents as unequal" do
-    Uom::CompoundUnit['lb^-1 m'].should_not == Uom::CompoundUnit['lb m']
-  end
-  
-  it "should cancel redundant units" do
-    Uom::CompoundUnit['m m^-1'].should == Uom::CompoundUnit['']
-  end
-  
-  it "should simplify to basis units" do
-    Uom::CompoundUnit['yd ft'].basis_units.should == Uom::CompoundUnit['m^2']
-  end
-  
-  it "should have sensible basis unit factor values" do
-    Uom::CompoundUnit['mm'].basis_unit_factor.
-      should be_close(0.001, 0.00001)
-
-    Uom::CompoundUnit['yd ft'].basis_unit_factor.
-      should be_close(0.27870912, 0.00001)
-  end
-end
-
 describe "conversions" do
   it "should reject a conversion with more than one offset-based unit" do
     lambda{Uom::Quantity.new(1, "degC")}.should_not raise_error
