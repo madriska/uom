@@ -52,10 +52,6 @@ describe "conversions" do
     Uom::Quantity.new(1, :K).should == Uom::Quantity.new(1, :K)
   end
   
-  it "should fudge equality for close values" do
-    pending "conversions not implemented yet"
-    Uom::Quantity.new(0, :K).should == Uom::Quantity.new(-273.15, :degC)
-  end
 end
 
 describe "derived units" do
