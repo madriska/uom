@@ -1,6 +1,12 @@
 require 'rational'
 module Uom
   class Unit
+    # Environment holds unit definitions; you can do
+    #   include Uom::Unit::Environment
+    #   3 * m
+    Environment = Module.new
+    extend Environment
+
     include UnitMath
     include Errors
     
@@ -25,7 +31,7 @@ module Uom
       
       # Define the method concretely; using method_missing for this can
       # cause problems because s() is defined by SexpProcessor.
-      meta_def(name){ @units[name.to_s] }
+      Environment.class_def(name){ Uom::Unit[name.to_s] }
 
       @units[name.to_s]
     end
