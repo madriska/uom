@@ -2,8 +2,7 @@ require 'rational'
 module Uom
   class Unit
     include UnitMath
-    
-    class BadComparison < StandardError; end
+    include Errors
     
     attr_accessor :dimension, :name, :definition
     def initialize(dimension, name, definition)
