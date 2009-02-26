@@ -2,7 +2,7 @@ require 'rational'
 module Uom
   class Unit
     include UnitMath
-
+    
     class BadComparison < StandardError; end
     
     attr_accessor :dimension, :name, :definition
@@ -23,6 +23,12 @@ module Uom
         [arg, nil]
       end
       @units[name.to_s] ||= Unit.new(@dimension, name, definition)
+      
+      # Define the method concretely; using method_missing for this can
+      # cause problems because s() is defined by SexpProcessor.
+      meta_def(name){ @units[name.to_s] }
+
+      @units[name.to_s]
     end
 
     def self.[](unit)
@@ -34,10 +40,6 @@ module Uom
       yield if block_given?
       @dimension = nil
       dimension
-    end
-
-    def self.method_missing(id, *args, &block)
-      @units[id.to_s]
     end
 
   end
