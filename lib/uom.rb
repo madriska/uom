@@ -1,3 +1,4 @@
+require 'metaid'
 require 'uom/compound_unit'
 require 'uom/unit/math'
 require 'uom/quantity'
