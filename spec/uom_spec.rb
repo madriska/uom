@@ -62,17 +62,6 @@ describe "derived units" do
   end
 end
 
-describe "core extensions" do
-  it "should create a Uom::Quantity object" do
-    10.mm.should be_an_instance_of(Uom::Quantity)
-  end
-  
-  it "should accept in_* syntax for conversion" do
-    pending "conversions not implemented yet"
-    10.ft.in_m.should be_close(3.048, 0.01)
-  end
-end
-
 describe "UOM comparisons" do
   it "should be comparable" do
     pending "comparisons not implemented yet"

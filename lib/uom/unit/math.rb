@@ -15,6 +15,7 @@ module Uom
     end
 
     def +(val)
+      raise IncommensurableUnits unless commensurable_with?(val)
       # TODO
     end
 
@@ -24,6 +25,10 @@ module Uom
 
     def coerce(other)
       [self, other]
+    end
+
+    def commensurable_with?(other)
+      dimensions == other.dimensions
     end
 
   end
